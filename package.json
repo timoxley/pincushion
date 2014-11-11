@@ -1,0 +1,25 @@
+{
+  "name": "@mango/pincushion",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "afterfn": "~2.1.0",
+    "assertf": "^1.0.0",
+    "beforefn": "^2.3.0",
+    "inherits": "~2.0.1",
+    "signalfn": "file:../../../utils/signal",
+    "uuid": "^1.4.1",
+    "xtend": "^4.0.0"
+  },
+  "devDependencies": {
+    "tape": "^2.14.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "author": "Tim Oxley <secoif@gmail.com>"
+}
