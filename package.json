@@ -1,11 +1,11 @@
 {
   "name": "pincushion",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "tape test/*.js"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "afterfn": "~2.1.0",
     "assertf": "^1.0.0",
