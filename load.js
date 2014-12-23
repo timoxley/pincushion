@@ -3,6 +3,12 @@ module.exports = function(graph, data) {
 
   for (var nodeId in data.nodes) {
     var node = data.nodes[nodeId]
+    node.inputs = node.inputs.map(function(pinId) {
+      return data.pins[pinId]
+    })
+    node.outputs = node.outputs.map(function(pinId) {
+      return data.pins[pinId]
+    })
     if (!graph.hasNode(node)) graph.addNode(node)
   }
   for (var pinId in data.pins) {
