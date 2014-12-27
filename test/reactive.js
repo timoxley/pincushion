@@ -4,47 +4,54 @@ var Graph = require('../')
 
 test('fires onAddNode on node add', function(t) {
   var graph = new Graph()
+  var node = {}
   graph.onAddNode(function(firedNode) {
     t.equal(firedNode, node)
     t.end()
   })
-  var node = graph.addNode()
+  graph.addNode(node)
   t.ok(node)
 })
 
 test('fires onRemoveNode on node remove', function(t) {
   var graph = new Graph()
+  var node = {}
   graph.onRemoveNode(function(firedNode) {
     t.equal(firedNode, node)
     t.end()
   })
-  var node = graph.addNode()
+  graph.addNode(node)
   var removedNode = graph.removeNode(node)
   t.equal(removedNode, node)
 })
 
 test('fires onAddPin on pin add', function(t) {
   var graph = new Graph()
+  var node = {}
+  var pin = {}
+
   graph.onAddPin(function(firedPin, firedNode) {
     t.equal(firedPin, pin)
     t.equal(firedNode, node)
     t.end()
   })
 
-  var node = graph.addNode()
-  var pin = graph.addOutputPin(node)
+  graph.addNode(node)
+  graph.addOutputPin(node, pin)
   t.ok(pin)
 })
 
 test('fires onRemovePin on pin remove', function(t) {
   var graph = new Graph()
+  var node = {}
+
   graph.onRemovePin(function(firedPin, firedNode) {
     t.equal(firedPin, pin)
     t.equal(firedNode, node)
     t.end()
   })
 
-  var node = graph.addNode()
+  graph.addNode(node)
   var pin = graph.addOutputPin(node)
   var removedPin = graph.removePin(pin)
   t.equal(removedPin, pin)
@@ -52,10 +59,11 @@ test('fires onRemovePin on pin remove', function(t) {
 
 test('fires signal on link add', function(t) {
   var graph = new Graph()
-  graph.onAddLink(function(firedPinFrom, firedPinTo, firedLink) {
+  var firedLink = undefined
+  graph.onAddLink(function(firedPinFrom, firedPinTo, theFiredLink) {
     t.equal(firedPinFrom, pinFrom)
     t.equal(firedPinTo, pinTo)
-    t.equal(firedLink, link)
+    firedLink = theFiredLink
     t.end()
   })
 
@@ -64,6 +72,7 @@ test('fires signal on link add', function(t) {
   var pinFrom = graph.addOutputPin(nodeA)
   var pinTo = graph.addInputPin(nodeB)
   var link = graph.linkPins(pinFrom, pinTo)
+  t.equal(link, firedLink)
   t.ok(link)
 })
 

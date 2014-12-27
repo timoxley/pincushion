@@ -24,50 +24,32 @@ ReactiveGraph.__proto__ = Object.create(IOGraph)
 
 var addNode = ReactiveGraph.prototype.addNode
 ReactiveGraph.prototype.addNode = after.return(ReactiveGraph.prototype.addNode, function fn(node) {
-  var self = this
-  process.nextTick(function() {
-    self.onAddNode.fire(node)
-  })
+  this.onAddNode.fire(node)
   return node
 })
 
 ReactiveGraph.prototype.removeNode = after.return(ReactiveGraph.prototype.removeNode, function fn(node) {
-  var self = this
-  process.nextTick(function() {
-    self.onRemoveNode.fire(node)
-  })
+  this.onRemoveNode.fire(node)
   return node
 })
 
 ReactiveGraph.prototype.addPin = after.return(ReactiveGraph.prototype.addPin, function fn(pin) {
-  var self = this
-  process.nextTick(function() {
-    self.onAddPin.fire(pin, self.getNode(pin.nodeId))
-  })
+  this.onAddPin.fire(pin, this.getNode(pin.nodeId))
   return pin
 })
 
 ReactiveGraph.prototype.removePin = after.return(ReactiveGraph.prototype.removePin, function fn(pin) {
-  var self = this
-  process.nextTick(function() {
-    self.onRemovePin.fire(pin, self.getNode(pin.nodeId))
-  })
+  this.onRemovePin.fire(pin, this.getNode(pin.nodeId))
   return pin
 })
 
 ReactiveGraph.prototype.addLink = after.return(ReactiveGraph.prototype.addLink, function fn(link) {
-  var self = this
-  process.nextTick(function() {
-    self.onAddLink.fire(self.getPin(link.from), self.getPin(link.to), link)
-  })
+  this.onAddLink.fire(this.getPin(link.from), this.getPin(link.to), link)
   return link
 })
 
 ReactiveGraph.prototype.removeLink = after.return(ReactiveGraph.prototype.removeLink, function fn(link) {
-  var self = this
-  process.nextTick(function() {
-    self.onRemoveLink.fire(self.getPin(link.from), self.getPin(link.to), link)
-  })
+  this.onRemoveLink.fire(this.getPin(link.from), this.getPin(link.to), link)
   return link
 })
 
