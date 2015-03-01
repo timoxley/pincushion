@@ -93,3 +93,50 @@ test('fires signal on link remove', function(t) {
   var removedLink = graph.removeLink(link)
   t.equal(link, removedLink)
 })
+
+test('successfully removes nodes linked from', function(t) {
+  var graph = new Graph()
+  graph.onRemoveNode(function(firedNode) {
+    t.equal(firedNode, nodeA)
+    t.end()
+  })
+
+  var nodeA = graph.addNode()
+  var nodeB = graph.addNode()
+  var pinFrom = graph.addOutputPin(nodeA)
+  var pinTo = graph.addInputPin(nodeB)
+  var link = graph.linkPins(pinFrom, pinTo)
+  graph.removeNode(nodeA)
+})
+
+test('successfully removes nodes linked to', function(t) {
+  var graph = new Graph()
+  graph.onRemoveNode(function(firedNode) {
+    t.equal(firedNode, nodeB)
+    t.end()
+  })
+
+  var nodeA = graph.addNode()
+  var nodeB = graph.addNode()
+  var pinFrom = graph.addOutputPin(nodeA)
+  var pinTo = graph.addInputPin(nodeB)
+  var link = graph.linkPins(pinFrom, pinTo)
+  graph.removeNode(nodeB)
+})
+
+test('fires onRemoveLink when removing a linked node', function(t) {
+  var graph = new Graph()
+  graph.onRemoveLink(function(firedPinFrom, firedPinTo, firedLink) {
+    t.equal(firedPinFrom, pinFrom)
+    t.equal(firedPinTo, pinTo)
+    t.equal(firedLink, link)
+    t.end()
+  })
+
+  var nodeA = graph.addNode()
+  var nodeB = graph.addNode()
+  var pinFrom = graph.addOutputPin(nodeA)
+  var pinTo = graph.addInputPin(nodeB)
+  var link = graph.linkPins(pinFrom, pinTo)
+  graph.removeNode(nodeA)
+})
