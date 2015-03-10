@@ -183,7 +183,6 @@ NodeGraph.createNode =
 NodeGraph.prototype.createNode = function createNode(data) {
   data = data || {}
   data.id = data.id || 'node:' + uuid()
-  data._type = NodeGraph.NODE
   return data
 }
 

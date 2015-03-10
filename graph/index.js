@@ -24,6 +24,7 @@ NodeGraph.prototype.removePin = before(NodeGraph.prototype.removePin, function f
   }, this)
 })
 
+
 //NodeGraph.prototype.addLink = before(NodeGraph.prototype.addLink, function fn(link) {
   //link = this.createLink(link)
   //if (!(link.from && link.to)) throw new Error('Link requires from and to')
