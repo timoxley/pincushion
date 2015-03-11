@@ -1,3 +1,5 @@
+"use strict"
+
 var test = require('tape')
 
 var Graph = require('../graph')
@@ -14,6 +16,59 @@ test('createNode creates node', function(t) {
   var node = Graph.createNode()
   t.ok(node, 'created node')
   t.ok(node.id, 'node has id')
+  t.end()
+})
+
+test('createNode can happily inherit existing data', function(t) {
+  var baseData = {
+    name: 'alice'
+  }
+  var node = Graph.createNode(baseData)
+  t.ok(node, 'created node')
+  t.equal(node.name, baseData.name, 'properties match')
+  t.equal(node, baseData, 'node and baseData are same')
+  t.end()
+})
+
+test('createNode leaves existing id', function(t) {
+  var baseData = {
+    id: 99
+  }
+  var node = Graph.createNode(baseData)
+  t.equal(node, baseData, 'node and baseData are the same')
+  t.end()
+})
+
+test('createNode can deal with frozen node data', function(t) {
+  var baseData = Object.freeze({
+    id: 1
+  })
+
+  var node = Graph.createNode(baseData)
+  t.ok(node, 'created node')
+  t.equal(node, baseData, 'node and baseData are the same')
+  t.end()
+})
+
+test('createLink can deal with frozen link data', function(t) {
+  var baseData = Object.freeze({
+    id: 1
+  })
+
+  var link = Graph.createLink(baseData)
+  t.ok(link, 'created link')
+  t.equal(link, baseData, 'link and baseData are the same')
+  t.end()
+})
+
+test('createPin can deal with frozen pin data', function(t) {
+  var baseData = Object.freeze({
+    id: 1
+  })
+
+  var pin = Graph.createLink(baseData)
+  t.ok(pin, 'created pin')
+  t.equal(pin, baseData, 'pin and baseData are the same')
   t.end()
 })
 
@@ -344,12 +399,12 @@ test('link contains metadata', function(t) {
   var pinB = graph.addPin(nodeB.id)
 
   graph.linkPins(pinA, pinB, {
-    hello: 'world'
+    name: 'alice'
   })
   var links = graph.getLinksFrom(pinA.id)
   t.equal(links[0].from, pinA.id)
   t.equal(links[0].to, pinB.id)
-  t.equal(links[0].hello, 'world')
+  t.equal(links[0].name, 'alice')
   t.end()
 })
 

@@ -179,13 +179,6 @@ NodeGraph.prototype.getAllLinksFor = function getAllLinksFor(pinId) {
   return this.getLinksFrom(pin).concat(this.getLinksTo(pin))
 }
 
-NodeGraph.createNode =
-NodeGraph.prototype.createNode = function createNode(data) {
-  data = data || {}
-  data.id = data.id || 'node:' + uuid()
-  return data
-}
-
 NodeGraph.createData =
 NodeGraph.prototype.createData = function createGraph(data) {
   data = data || {}
@@ -195,17 +188,24 @@ NodeGraph.prototype.createData = function createGraph(data) {
   return data
 }
 
+NodeGraph.createNode =
+NodeGraph.prototype.createNode = function createNode(data) {
+  data = data || {}
+  if (!('id' in data)) data.id = data.id || 'node:' + uuid()
+  return data
+}
+
 NodeGraph.createPin =
 NodeGraph.prototype.createPin = function createPin(data) {
   data = data || {}
-  data.id = data.id || 'pin:' + uuid()
+  if (!('id' in data)) data.id = 'pin:' + uuid()
   return data
 }
 
 NodeGraph.createLink =
 NodeGraph.prototype.createLink = function createLink(data) {
   data = data || {}
-  data.id = data.id || 'link:' + uuid()
+  if (!('id' in data)) data.id = 'link:' + uuid()
   return data
 }
 
