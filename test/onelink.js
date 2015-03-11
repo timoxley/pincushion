@@ -1,5 +1,4 @@
 var test = require('tape')
-var uuid = require('uuid')
 
 var Graph = require('../graph')
 

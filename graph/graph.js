@@ -1,6 +1,6 @@
 "use strict"
 
-var uuid = require('uuid')
+var uuid = require('shortid')
 
 function NodeGraph(data) {
   this.data = this.createData(data)

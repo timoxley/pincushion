@@ -1,5 +1,5 @@
 var Emitter = require('events').EventEmitter
-var uuid = require('uuid')
+var uuid = require('shortid')
 
 var IOGraph = require('../iograph')
 var inherits = require('inherits')

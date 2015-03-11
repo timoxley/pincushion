@@ -3,7 +3,7 @@
 var inherits = require('inherits')
 var before = require('beforefn')
 var assert = require('assertf')
-var uuid = require('uuid')
+var uuid = require('shortid')
 var Graph = require('../graph')
 
 function IOGraph() {
