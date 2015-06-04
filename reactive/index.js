@@ -1,22 +1,24 @@
 var Emitter = require('events').EventEmitter
 var uuid = require('shortid')
-
 var IOGraph = require('../iograph')
 var inherits = require('inherits')
 var Signal = require('signalfn')
 var before = require('beforefn')
 var after = require('afterfn')
+var d = require('d')
 
 var noop = function noop(){}
 
 function ReactiveGraph() {
   IOGraph.apply(this, arguments)
-  this.onAddNode = Signal()
-  this.onRemoveNode = Signal()
-  this.onAddPin = Signal()
-  this.onRemovePin = Signal()
-  this.onAddLink = Signal()
-  this.onRemoveLink = Signal()
+  Object.defineProperties(this, {
+    onAddNode: d(Signal()),
+    onRemoveNode: d(Signal()),
+    onAddPin: d(Signal()),
+    onRemovePin: d(Signal()),
+    onAddLink: d(Signal()),
+    onRemoveLink: d(Signal())
+  })
 }
 
 inherits(ReactiveGraph, IOGraph)
