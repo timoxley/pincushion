@@ -3,7 +3,7 @@
   "version": "2.0.2",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "NODE_ENV=test nyc -s tape test/*.js && nyc report --reporter=lcov --reporter=text --reporter=html"
   },
   "license": "MIT",
   "dependencies": {
@@ -17,6 +17,7 @@
     "xtend": "^4.0.0"
   },
   "devDependencies": {
+    "nyc": "^7.0.0",
     "tape": "^4.0.0"
   },
   "directories": {
@@ -32,5 +33,11 @@
   "bugs": {
     "url": "https://github.com/timoxley/pincushion/issues"
   },
-  "homepage": "https://github.com/timoxley/pincushion"
+  "homepage": "https://github.com/timoxley/pincushion",
+  "nyc": {
+    "cache": true,
+    "exclude": [
+      "test/*.js"
+    ]
+  }
 }
