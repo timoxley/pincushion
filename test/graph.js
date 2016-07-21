@@ -117,6 +117,20 @@ test('addNode will error if node exists', t => {
   t.end()
 })
 
+test('addNode can handle frozen data', t => {
+  const graph = new Graph()
+  const baseData = {}
+  Object.defineProperty(baseData, 'id', {
+    value: 1,
+    writable: false
+  })
+
+  const node = graph.addNode(baseData)
+  t.ok(node)
+  t.equal(node.id, baseData.id)
+  t.end()
+})
+
 test('getNode can get node', t => {
   const graph = new Graph()
   const node = graph.addNode()

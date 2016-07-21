@@ -9,6 +9,7 @@ module.exports = class Graph extends ReactiveGraph {
 
   static load (graph, data) {
     data = graph.createData(data)
+
     for (let nodeID in data.nodes) {
       const node = data.nodes[nodeID]
       if (!graph.hasNode(node)) {

@@ -4,9 +4,9 @@ const Graph = require('../')
 
 test('fires onAddNode on node add', t => {
   const graph = new Graph()
-  const node = {}
+  const node = { name: 'node1' }
   graph.onAddNode(firedNode => {
-    t.equal(firedNode, node)
+    t.equal(firedNode.name, node.name)
     t.end()
   })
   graph.addNode(node)
@@ -15,9 +15,9 @@ test('fires onAddNode on node add', t => {
 
 test('fires onRemoveNode on node remove', t => {
   const graph = new Graph()
-  const node = {}
+  const node = { name: 'node1' }
   graph.onRemoveNode(firedNode => {
-    t.equal(firedNode, node)
+    t.equal(firedNode.name, node.name)
     t.end()
   })
   graph.addNode(node)
@@ -31,12 +31,12 @@ test('fires onRemoveNode on node remove', t => {
 
 test('fires onAddPin on pin add', t => {
   const graph = new Graph()
-  const node = {}
-  const pin = {}
+  const node = { name: 'node1' }
+  const pin = { name: 'pin1' }
 
   graph.onAddPin((firedPin, firedNode) => {
-    t.equal(firedPin, pin)
-    t.equal(firedNode, node)
+    t.equal(firedPin.name, pin.name)
+    t.equal(firedNode.name, node.name)
     t.end()
   })
 
@@ -47,16 +47,16 @@ test('fires onAddPin on pin add', t => {
 
 test('fires onRemovePin on pin remove', t => {
   const graph = new Graph()
-  const node = {}
+  const node = { name: 'node1' }
 
   graph.onRemovePin((firedPin, firedNode) => {
-    t.equal(firedPin, pin)
-    t.equal(firedNode, node)
+    t.equal(firedPin.name, pin.name)
+    t.equal(firedNode.name, node.name)
     t.end()
   })
 
   graph.addNode(node)
-  const pin = graph.addOutputPin(node)
+  const pin = graph.addOutputPin(node, {name: 'pin1'})
   const removedPin = graph.removePin(pin)
   t.equal(removedPin, pin)
 })
@@ -101,12 +101,12 @@ test('fires signal on link remove', t => {
 test('successfully removes nodes linked from', t => {
   const graph = new Graph()
   graph.onRemoveNode(firedNode => {
-    t.equal(firedNode, nodeA)
+    t.equal(firedNode.name, nodeA.name)
     t.end()
   })
 
-  const nodeA = graph.addNode()
-  const nodeB = graph.addNode()
+  const nodeA = graph.addNode({name: 'nodeA'})
+  const nodeB = graph.addNode({name: 'nodeB'})
   const pinFrom = graph.addOutputPin(nodeA)
   const pinTo = graph.addInputPin(nodeB)
   graph.linkPins(pinFrom, pinTo)
@@ -116,12 +116,12 @@ test('successfully removes nodes linked from', t => {
 test('successfully removes nodes linked to', t => {
   const graph = new Graph()
   graph.onRemoveNode(firedNode => {
-    t.equal(firedNode, nodeB)
+    t.equal(firedNode.name, nodeB.name)
     t.end()
   })
 
-  const nodeA = graph.addNode()
-  const nodeB = graph.addNode()
+  const nodeA = graph.addNode({name: 'nodeA'})
+  const nodeB = graph.addNode({name: 'nodeB'})
   const pinFrom = graph.addOutputPin(nodeA)
   const pinTo = graph.addInputPin(nodeB)
   graph.linkPins(pinFrom, pinTo)

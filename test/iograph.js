@@ -16,6 +16,23 @@ test('createInputPin creates input pins', t => {
   t.end()
 })
 
+test('addNode can handle non-writable, non-enumerable id', t => {
+  const graph = new IOGraph()
+  const baseData = {}
+  Object.defineProperty(baseData, 'id', {
+    configurable: false,
+    enumerable: false,
+    get () {
+      return 1
+    }
+  })
+
+  const node = graph.addNode(baseData)
+  t.ok(node)
+  t.equal(node.id, baseData.id)
+  t.end()
+})
+
 test('addOutputPin creates output pins', t => {
   const graph = new IOGraph()
   const node = graph.addNode()

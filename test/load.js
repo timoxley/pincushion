@@ -3,7 +3,7 @@ const test = require('tape')
 const Graph = require('../')
 
 test('can load data into another graph', t => {
-  t.plan(14)
+  t.plan(15)
   const graphA = new Graph()
   const nodeA = graphA.addNode()
   const pinA = graphA.addOutputPin(nodeA)
@@ -60,5 +60,9 @@ test('can load data into another graph', t => {
 
   graphB.load(graphA.data)
   t.deepEqual(graphB.data, graphA.data, 'data is still the same')
+  const graphC = new Graph()
+
+  graphC.load(graphB.data)
+  t.deepEqual(graphC.data, graphB.data, 'data is still the same')
 })
 
