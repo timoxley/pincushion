@@ -1,6 +1,6 @@
 {
   "name": "pincushion",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test nyc -s tape test/*.js && standard && nyc report --reporter=lcov --reporter=text --reporter=html"
