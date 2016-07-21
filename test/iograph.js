@@ -1,44 +1,44 @@
-var test = require('tape')
+const test = require('tape')
 
-var IOGraph = require('../iograph')
+const IOGraph = require('../lib/iograph')
 
-test('createOutputPin creates output pins', function(t) {
-  var pin = IOGraph.createOutputPin()
+test('createOutputPin creates output pins', t => {
+  const pin = IOGraph.createOutputPin()
   t.ok(pin)
   t.equal(pin.direction, IOGraph.OUTPUT)
   t.end()
 })
 
-test('createInputPin creates input pins', function(t) {
-  var pin = IOGraph.createInputPin()
+test('createInputPin creates input pins', t => {
+  const pin = IOGraph.createInputPin()
   t.ok(pin)
   t.equal(pin.direction, IOGraph.INPUT)
   t.end()
 })
 
-test('addOutputPin creates output pins', function(t) {
-  var graph = new IOGraph()
-  var node = graph.addNode()
-  var pin = graph.addOutputPin(node.id)
+test('addOutputPin creates output pins', t => {
+  const graph = new IOGraph()
+  const node = graph.addNode()
+  const pin = graph.addOutputPin(node.id)
   t.ok(pin)
   t.equal(pin.direction, IOGraph.OUTPUT)
   t.end()
 })
 
-test('addInputPin creates input pins', function(t) {
-  var graph = new IOGraph()
-  var node = graph.addNode()
-  var pin = graph.addInputPin(node.id)
+test('addInputPin creates input pins', t => {
+  const graph = new IOGraph()
+  const node = graph.addNode()
+  const pin = graph.addInputPin(node.id)
   t.ok(pin)
   t.equal(pin.direction, IOGraph.INPUT)
   t.end()
 })
 
-test('isOutputPin matches output pins', function(t) {
-  var graph = new IOGraph()
-  var node = graph.addNode()
-  var inputPin = graph.addInputPin(node.id)
-  var outputPin = graph.addOutputPin(node.id)
+test('isOutputPin matches output pins', t => {
+  const graph = new IOGraph()
+  const node = graph.addNode()
+  const inputPin = graph.addInputPin(node.id)
+  const outputPin = graph.addOutputPin(node.id)
   t.ok(graph.isOutputPin(outputPin))
   t.ok(graph.isOutputPin(outputPin.id))
   t.notOk(graph.isOutputPin(inputPin))
@@ -46,11 +46,11 @@ test('isOutputPin matches output pins', function(t) {
   t.end()
 })
 
-test('isInputPin matches input pins', function(t) {
-  var graph = new IOGraph()
-  var node = graph.addNode()
-  var inputPin = graph.addInputPin(node.id)
-  var outputPin = graph.addOutputPin(node.id)
+test('isInputPin matches input pins', t => {
+  const graph = new IOGraph()
+  const node = graph.addNode()
+  const inputPin = graph.addInputPin(node.id)
+  const outputPin = graph.addOutputPin(node.id)
 
   t.ok(graph.isInputPin(inputPin))
   t.ok(graph.isInputPin(inputPin.id))
@@ -59,62 +59,62 @@ test('isInputPin matches input pins', function(t) {
   t.end()
 })
 
-test('getNodeOutputPins gets output pins', function(t) {
-  var graph = new IOGraph()
-  var node = graph.addNode()
-  var pin1 = graph.addOutputPin(node.id)
-  var pin2 = graph.addOutputPin(node.id)
-  var pin3 = graph.addInputPin(node.id)
+test('getNodeOutputPins gets output pins', t => {
+  const graph = new IOGraph()
+  const node = graph.addNode()
+  const pin1 = graph.addOutputPin(node.id)
+  const pin2 = graph.addOutputPin(node.id)
+  graph.addInputPin(node.id)
 
   // should not include pin3 as it's an input
   t.deepEqual(graph.getNodeOutputPins(node.id), [pin1, pin2])
   t.end()
 })
 
-test('getNodeInputPins gets input pins', function(t) {
-  var graph = new IOGraph()
-  var node = graph.addNode()
-  var pin1 = graph.addInputPin(node.id)
-  var pin2 = graph.addInputPin(node.id)
-  var pin3 = graph.addOutputPin(node.id)
+test('getNodeInputPins gets input pins', t => {
+  const graph = new IOGraph()
+  const node = graph.addNode()
+  const pin1 = graph.addInputPin(node.id)
+  const pin2 = graph.addInputPin(node.id)
+  graph.addOutputPin(node.id)
 
   // should not include pin3 as it's an output
   t.deepEqual(graph.getNodeInputPins(node.id), [pin1, pin2])
   t.end()
 })
 
-test('getLinkForInputPin gets single link for input pin', function(t) {
-  var graph = new IOGraph()
-  var nodeA = graph.addNode()
-  var nodeB = graph.addNode()
-  var outputPin = graph.addOutputPin(nodeA)
-  var inputPin = graph.addInputPin(nodeB)
+test('getLinkForInputPin gets single link for input pin', t => {
+  const graph = new IOGraph()
+  const nodeA = graph.addNode()
+  const nodeB = graph.addNode()
+  const outputPin = graph.addOutputPin(nodeA)
+  const inputPin = graph.addInputPin(nodeB)
 
-  var expected = graph.linkPins(outputPin, inputPin)
-  var actual = graph.getLinkForInputPin(inputPin)
+  const expected = graph.linkPins(outputPin, inputPin)
+  const actual = graph.getLinkForInputPin(inputPin)
   t.equal(expected, actual)
   t.end()
 })
 
-test('getLinkForInputPin throws if if no link for input pin', function(t) {
-  var graph = new IOGraph()
-  var nodeA = graph.addNode()
-  var nodeB = graph.addNode()
-  var outputPin = graph.addOutputPin(nodeA)
-  var inputPin = graph.addInputPin(nodeB)
-  t.throws(function() {
+test('getLinkForInputPin throws if if no link for input pin', t => {
+  const graph = new IOGraph()
+  const nodeA = graph.addNode()
+  const nodeB = graph.addNode()
+  graph.addOutputPin(nodeA)
+  const inputPin = graph.addInputPin(nodeB)
+  t.throws(() => {
     graph.getLinkForInputPin(inputPin)
   })
   t.end()
 })
 
-test('IOGraph ensures output pins can be connected to input pins', function(t) {
-  var graph = new IOGraph()
-  var nodeA = graph.addNode()
-  var pinA = graph.addOutputPin(nodeA.id)
+test('IOGraph ensures output pins can be connected to input pins', t => {
+  const graph = new IOGraph()
+  const nodeA = graph.addNode()
+  const pinA = graph.addOutputPin(nodeA.id)
 
-  var nodeB = graph.addNode()
-  var pinB = graph.addInputPin(nodeB.id)
+  const nodeB = graph.addNode()
+  const pinB = graph.addInputPin(nodeB.id)
 
   graph.linkPins(pinA.id, pinB.id)
   t.deepEqual(graph.getPinsFrom(pinA.id), [pinB], 'should have linked from')
@@ -122,15 +122,15 @@ test('IOGraph ensures output pins can be connected to input pins', function(t) {
   t.end()
 })
 
-test('IOGraph ensures output pins are connected to input pins', function(t) {
-  var graph = new IOGraph()
-  var nodeA = graph.addNode()
-  var pinA = graph.addOutputPin(nodeA.id)
+test('IOGraph ensures output pins are connected to input pins', t => {
+  const graph = new IOGraph()
+  const nodeA = graph.addNode()
+  const pinA = graph.addOutputPin(nodeA.id)
 
-  var nodeB = graph.addNode()
-  var pinB = graph.addOutputPin(nodeB.id)
+  const nodeB = graph.addNode()
+  const pinB = graph.addOutputPin(nodeB.id)
 
-  t.throws(function() {
+  t.throws(() => {
     graph.linkPins(pinA.id, pinB.id)
   })
 
@@ -139,17 +139,17 @@ test('IOGraph ensures output pins are connected to input pins', function(t) {
   t.end()
 })
 
-test('IOGraph ensures only single connections to input pins', function(t) {
-  var graph = new IOGraph()
-  var nodeA = graph.addNode()
-  var outputA = graph.addOutputPin(nodeA)
-  var outputB = graph.addOutputPin(nodeA)
+test('IOGraph ensures only single connections to input pins', t => {
+  const graph = new IOGraph()
+  const nodeA = graph.addNode()
+  const outputA = graph.addOutputPin(nodeA)
+  const outputB = graph.addOutputPin(nodeA)
 
-  var nodeB = graph.addNode()
-  var inputPin = graph.addInputPin(nodeB)
+  const nodeB = graph.addNode()
+  const inputPin = graph.addInputPin(nodeB)
 
   graph.linkPins(outputA, inputPin)
-  t.throws(function() {
+  t.throws(() => {
     graph.linkPins(outputB, inputPin)
   })
 
@@ -159,11 +159,11 @@ test('IOGraph ensures only single connections to input pins', function(t) {
   t.end()
 })
 
-test('IOGraph pins must have direction', function(t) {
-  var graph = new IOGraph()
-  var nodeA = graph.addNode()
+test('IOGraph pins must have direction', t => {
+  const graph = new IOGraph()
+  const nodeA = graph.addNode()
 
-  t.throws(function() {
+  t.throws(() => {
     graph.addPin(nodeA.id)
   })
   t.end()

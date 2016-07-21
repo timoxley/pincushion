@@ -1,35 +1,64 @@
-var test = require('tape')
+const test = require('tape')
 
-var Graph = require('../')
+const Graph = require('../')
 
+test('can load data into another graph', t => {
+  t.plan(14)
+  const graphA = new Graph()
+  const nodeA = graphA.addNode()
+  const pinA = graphA.addOutputPin(nodeA)
 
-test('can load data into another graph', function(t) {
-  t.plan(7)
-  var graph = new Graph()
-  var nodeA = graph.addNode()
-  var pinA = graph.addOutputPin(nodeA.id)
+  const nodeB = graphA.addNode()
+  const pinB = graphA.addInputPin(nodeB)
 
-  var nodeB = graph.addNode()
-  var pinB = graph.addInputPin(nodeB.id)
+  // add some additional pins
+  graphA.addInputPin(nodeB)
+  graphA.addOutputPin(nodeB)
 
-  var linkA = graph.linkPins(pinA, pinB)
+  graphA.linkPins(pinA, pinB)
 
-  var graphB = new Graph()
+  const graphB = new Graph()
 
-  graphB.onAddNode(function(node) {
-    t.ok(node)
+  graphB.onAddNode(node => {
+    t.ok(node, 'added node')
   })
 
-  graphB.onAddPin(function(pin) {
-    t.ok(pin)
+  graphB.onAddPin(pin => {
+    t.ok(pin, 'added pin')
   })
 
-  graphB.onAddLink(function(from, to) {
-    t.equal(from.id, pinA.id)
-    t.equal(to.id, pinB.id)
+  graphB.onAddLink((from, to) => {
+    t.equal(from.id, pinA.id, 'linked from pinA')
+    t.equal(to.id, pinB.id, 'linked to pinB')
   })
 
-  graphB.load(graph.data)
-  t.deepEqual(graph.data, graphB.data)
+  graphB.load(graphA.data)
+  t.deepEqual(graphB.data, graphA.data, 'data is same')
+  t.deepEqual(
+    graphB.getNodeOutputPins(nodeB.id),
+    graphA.getNodeOutputPins(nodeB.id),
+    'node B has correct output pins'
+  )
+
+  t.deepEqual(
+    graphB.getNodeOutputPins(nodeA.id),
+    graphA.getNodeOutputPins(nodeA.id),
+    'node A has correct output pins'
+  )
+
+  t.deepEqual(
+    graphB.getNodeInputPins(nodeB.id),
+    graphA.getNodeInputPins(nodeB.id),
+    'node B has correct input pins'
+  )
+
+  t.deepEqual(
+    graphB.getNodeInputPins(nodeA.id),
+    graphA.getNodeInputPins(nodeA.id),
+    'node A has correct input pins'
+  )
+
+  graphB.load(graphA.data)
+  t.deepEqual(graphB.data, graphA.data, 'data is still the same')
 })
 
