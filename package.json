@@ -1,13 +1,18 @@
 {
   "name": "pincushion",
   "version": "2.1.1",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "NODE_ENV=test nyc -s tape test/*.js && standard && nyc report --reporter=lcov --reporter=text --reporter=html"
+    "test": "NODE_ENV=test nyc -s tape src/test/*.js && standard src && nyc report --reporter=lcov --reporter=text --reporter=html",
+    "test-dist": "NODE_ENV=test tape dist/test/*.js",
+    "pretest-dist": "npm test && babel -D -d dist src",
+    "prepublish": "npm run test-dist"
   },
   "license": "MIT",
   "dependencies": {
     "assertf": "^1.0.0",
+    "babel-cli": "^6.11.4",
+    "babel-plugin-transform-es2015-classes": "^6.9.0",
     "d": "^1.0.0",
     "shortid": "^2.2.6",
     "signalfn": "~1.0.0"
@@ -31,10 +36,16 @@
     "url": "https://github.com/timoxley/pincushion/issues"
   },
   "homepage": "https://github.com/timoxley/pincushion",
+  "babel": {
+    "plugins": [
+      "transform-es2015-classes"
+    ]
+  },
   "nyc": {
     "cache": true,
     "exclude": [
-      "test/*.js"
+      "src/test/*.js",
+      "dist/test/*.js"
     ]
   }
 }
