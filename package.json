@@ -6,7 +6,8 @@
     "test": "NODE_ENV=test nyc -s tape src/test/*.js && standard src && nyc report --reporter=lcov --reporter=text --reporter=html",
     "test-dist": "NODE_ENV=test tape dist/test/*.js",
     "pretest-dist": "npm test && babel -D -d dist src",
-    "prepublish": "npm run test-dist"
+    "prepublish": "npm run test-dist",
+    "docs": "node docs"
   },
   "license": "MIT",
   "dependencies": {
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "nyc": "^7.0.0",
+    "protochain": "^1.0.5",
     "standard": "^7.1.2",
     "tape": "^4.6.0"
   },
